@@ -1,18 +1,27 @@
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { Module } from "@nestjs/common";
 import { GraphQLModule } from "@nestjs/graphql";
-import { PrismaService } from "./prisma.service";
-import { TodoModule } from './todo/todo.module';
+import {ConfigModule, ConfigService} from "@nestjs/config";
+import { HttpModule, HttpService } from "@nestjs/axios";
+import { CacheInterceptor, CacheModule } from "@nestjs/cache-manager";
+import { APP_INTERCEPTOR } from "@nestjs/core";
+import { StandingsModule } from "./standings/standings.module";
 
 @Module({
   imports: [
+    // CacheModule.register({
+    //   isGlobal:true
+    // }),
+    ConfigModule.forRoot({
+      isGlobal:true
+    }),    
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: "src/schema.gql",
     }),
-    TodoModule,
+    StandingsModule
   ],
   controllers: [],
-  providers: [PrismaService],
+  providers: [],
 })
 export class AppModule { }

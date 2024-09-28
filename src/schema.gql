@@ -2,23 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Todo {
+type Team {
   id: String!
-  content: String!
-  isDone: Boolean!
+}
+
+type ConstructorStanding {
+  id: String!
+  position: Float!
+  points: Float!
+  team: Team!
 }
 
 type Query {
-  getTodos: [Todo!]!
-}
-
-type Mutation {
-  saveTodo(todo: CreateTodo!): Todo!
-  deleteTodo(todoId: String!): Todo!
-  updateTodo(id: String!, content: String!): Todo!
-}
-
-input CreateTodo {
-  content: String
-  isDone: Boolean! = false
+  constructors: ConstructorStanding!
 }

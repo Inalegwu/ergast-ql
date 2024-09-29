@@ -5,13 +5,9 @@ import { ScheduleService } from "./schedule.service";
 
 @Module({
   imports: [
-    HttpModule.registerAsync({
-      imports: [],
-      useFactory: async () => ({
-        timeout: 10_000,
-        baseURL: "https://ergast.com/api/f1/",
-      }),
-      inject: [],
+    HttpModule.register({
+      baseURL: "https://ergast.com/api/f1/",
+      timeout: 10_000,
     }),
   ],
   providers: [ScheduleResolver, ScheduleService],

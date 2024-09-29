@@ -70,6 +70,8 @@ type Schedule {
 
 type Query {
   constructors: [ConstructorStandingEntity!]!
-  getDriverStandings: [DriverStandingEntity!]!
-  getSchedule: [Schedule!]!
+  drivers: [DriverStandingEntity!]!
+  schedule: [Schedule!]!
+  roundSchedule(round: Int!): Schedule!
+  nextRace: [Schedule!]!
 }

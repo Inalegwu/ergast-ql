@@ -12,7 +12,7 @@ export class StandingsResolver {
     return this.standingService.getConstructorStandings();
   }
 
-  @Query((returns) => [DriverStandingEntity])
+  @Query((returns) => [DriverStandingEntity], { name: "drivers" })
   async getDriverStandings() {
     return this.standingService.getDriverStandings();
   }

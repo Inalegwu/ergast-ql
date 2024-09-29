@@ -61,7 +61,7 @@ export class ScheduleService {
             console.log({ day, month, year });
 
             return race;
-          }),
+          }).at(0),
         ),
         catchError((error: AxiosError) => {
           console.log({

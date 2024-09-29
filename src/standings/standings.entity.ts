@@ -1,44 +1,63 @@
 import { Field, ObjectType } from "@nestjs/graphql";
 
+@ObjectType()
+export class Constructor {
+  @Field()
+  constructorId: string;
 
+  @Field()
+  url: string;
+
+  @Field()
+  name: string;
+
+  @Field()
+  nationality: string;
+}
 
 @ObjectType()
-export class Team{
+export class ConstructorStandingEntity {
   @Field()
-  id:string;
+  position: string;
+
+  @Field()
+  points: string;
+
+  @Field()
+  wins: string;
+
+  @Field()
+  team: Constructor;
 }
 
+export type ConstructorStandingList = {
+  season: string;
+  round: string;
+  ConstructorStandings: ConstructorStanding[];
+};
 
-@ObjectType()
-export class ConstructorStanding{
-  @Field()
-  id:string;
+type ConstructorStanding = {
+  position: string;
+  positionText: string;
+  points: string;
+  wins: string;
+  Constructor: {
+    constructorId: string;
+    url: string;
+    name: string;
+    nationality: string;
+  };
+};
 
-  @Field()
-  position:number;
-
-  @Field()
-  points:number;
-
-  @Field()
-  team:Team
-}
-
-
-type Standings={
-  id:string;
-  position:number;
-  points:number;
-  constructor:{
-    id:string;
-  }}
-
-export type ConstructorStandingsResponse={
-  items:Standings[];
-  currentPage:number;
-  totalPage:number;
-  totalCount:number;
-  itemsNumber:10;
-  hasPrevious:boolean;
-  hasNext:boolean;
-}
+export type MRData = {
+  xmlns: string;
+  series: string;
+  url: string;
+  limit: string;
+  offset: string;
+  StandingsTable: {
+    season: string;
+    round: string;
+    StandingsLists: ConstructorStandingList[];
+  };
+};

@@ -1,19 +1,19 @@
 import { Query, Resolver } from "@nestjs/graphql";
-import { ConstructorStanding } from "./standings.entity";
+import { ConstructorStandingEntity } from "./standings.entity";
 import { StandingsService } from "./standings.service";
+import { DriverStandingEntity } from "./driver.entity";
 
-@Resolver(of=>ConstructorStanding)
-export class ConstructorStandingsResolver{
-  constructor(private readonly standingService:StandingsService){}
+@Resolver((of) => ConstructorStandingEntity)
+export class StandingsResolver {
+  constructor(private readonly standingService: StandingsService) {}
 
-
-  @Query(returns=>ConstructorStanding,{name:"constructors"})
-  async getConstructorStandings(){
-    return this.standingService.getConstructorStandings()
+  @Query((returns) => [ConstructorStandingEntity], { name: "constructors" })
+  async getConstructorStandings() {
+    return this.standingService.getConstructorStandings();
   }
 
-  async getDriverStandings(){
-    return []
+  @Query((returns) => [DriverStandingEntity])
+  async getDriverStandings() {
+    return this.standingService.getDriverStandings();
   }
-  
 }

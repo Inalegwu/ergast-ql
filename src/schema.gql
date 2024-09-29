@@ -2,17 +2,74 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Team {
-  id: String!
+type Constructor {
+  constructorId: String!
+  url: String!
+  name: String!
+  nationality: String!
 }
 
-type ConstructorStanding {
-  id: String!
-  position: Float!
-  points: Float!
-  team: Team!
+type ConstructorStandingEntity {
+  position: String!
+  points: String!
+  wins: String!
+  team: Constructor!
+}
+
+type Driver {
+  driverId: String!
+  permanentNumber: String!
+  code: String!
+  url: String!
+  givenName: String!
+  familyName: String!
+  dateOfBirth: String!
+  nationality: String!
+}
+
+type DriverStandingEntity {
+  position: String!
+  points: String!
+  wins: String!
+  driver: Driver!
+  team: Constructor!
+}
+
+type Location {
+  lat: String!
+  long: String!
+  locality: String!
+  country: String!
+}
+
+type Day {
+  date: String!
+  time: String!
+}
+
+type Circuit {
+  circuitId: String!
+  url: String!
+  circuitName: String!
+  Location: Location!
+}
+
+type Schedule {
+  season: String!
+  round: String!
+  url: String!
+  raceName: String!
+  Circuit: Circuit!
+  date: String!
+  time: String!
+  FirstPractice: Day!
+  SecondPractice: Day!
+  ThirdPractice: Day!
+  Qualifying: Day!
 }
 
 type Query {
-  constructors: ConstructorStanding!
+  constructors: [ConstructorStandingEntity!]!
+  getDriverStandings: [DriverStandingEntity!]!
+  getSchedule: [Schedule!]!
 }

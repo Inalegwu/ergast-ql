@@ -1,25 +1,19 @@
-
-import { Module } from '@nestjs/common';
-import { ConstructorStandingsResolver } from './standings.resolver';
-import { StandingsService } from './standings.service';
-import { HttpModule } from '@nestjs/axios';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-
+import { Module } from "@nestjs/common";
+import { StandingsResolver } from "./standings.resolver";
+import { StandingsService } from "./standings.service";
+import { HttpModule } from "@nestjs/axios";
 
 @Module({
-  imports:[    
-HttpModule.registerAsync({
-      imports:[ConfigModule],
-      useFactory:async(configService:ConfigService)=>({
-        timeout:10_000,
-        baseURL:configService.get("BASE_URL"),
-        headers:{
-          "x-rapidapi-key":configService.get("RAPID_API_KEY"),
-          "x-rapidapi-host":configService.get("RAPID_API_HOST")
-        }
+  imports: [
+    HttpModule.registerAsync({
+      imports: [],
+      useFactory: async () => ({
+        timeout: 10_000,
+        baseURL: `https://ergast.com/api/f1/${new Date().getFullYear()}/`,
       }),
-      inject:[ConfigService]
-    }),  ],
-  providers: [ConstructorStandingsResolver,StandingsService]
+      inject: [],
+    }),
+  ],
+  providers: [StandingsResolver, StandingsService],
 })
 export class StandingsModule {}

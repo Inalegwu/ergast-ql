@@ -2,7 +2,7 @@ import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import type { MRData as CMRData } from "./standings.entity";
 import type { MRData as DMRData } from "./driver.entity";
-import { catchError, map } from "rxjs";
+import { catchError, map, tap } from "rxjs";
 import { AxiosError } from "axios";
 
 @Injectable()
@@ -23,8 +23,18 @@ export class StandingsService {
             }),
           ),
         ),
+        tap(() =>
+          console.log({
+            module: "standings-service:get-constructor-standings",
+            message: "request processed successfully",
+          }),
+        ),
         catchError((error: AxiosError) => {
-          console.log({ error });
+          console.log({
+            error: error.message,
+            cause: error.cause,
+            code: error.code,
+          });
           throw "Error getting constructors standings";
         }),
       );
@@ -45,8 +55,18 @@ export class StandingsService {
             }),
           ),
         ),
+        tap(() =>
+          console.log({
+            module: "standings-service:get-driver-standings",
+            message: "request processed successfully",
+          }),
+        ),
         catchError((error: AxiosError) => {
-          console.log(error);
+          console.log({
+            error: error.message,
+            cause: error.cause,
+            code: error.code,
+          });
           throw "Error getting driver standings";
         }),
       );

@@ -12,27 +12,38 @@ export class ScheduleService {
       .pipe(
         map((response) => response.data.MRData.RaceTable.Races),
         catchError((error: AxiosError) => {
-          console.log({ error });
+          console.log({
+            error: error.message,
+            cause: error.cause,
+            code: error.code,
+          });
+
           throw "Error getting schedule";
         }),
       );
   }
 
   async getScheduleForRound(roundNumber: number) {
-    return firstValueFrom(
-      this.httpService
-        .get<{ MRData: SMRData }>(
-          `${new Date().getFullYear()}/${roundNumber}.json`,
-        )
-        .pipe(
-          map((response) => response.data.MRData.RaceTable.Races[0]),
-          map((race) => race),
-          catchError((error: AxiosError) => {
-            console.log(error);
-            throw `Error fetching schedule for round ${roundNumber}`;
-          }),
+    return this.httpService
+      .get<{ MRData: SMRData }>(
+        `${new Date().getFullYear()}/${roundNumber}.json`,
+      )
+      .pipe(
+        map((response) =>
+          response.data.MRData.RaceTable.Races.find(
+            (race) => +race.round === roundNumber,
+          ),
         ),
-    );
+        map((race) => race),
+        catchError((error: AxiosError) => {
+          console.log({
+            error: error.message,
+            cause: error.cause,
+            code: error.code,
+          });
+          throw `Error fetching schedule for round ${roundNumber}`;
+        }),
+      );
   }
 
   async getNextRace() {
@@ -53,7 +64,11 @@ export class ScheduleService {
           }),
         ),
         catchError((error: AxiosError) => {
-          console.log({ error });
+          console.log({
+            error: error.message,
+            cause: error.cause,
+            code: error.code,
+          });
           throw "Error getting next race";
         }),
       );

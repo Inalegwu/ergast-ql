@@ -7,7 +7,7 @@ export class ScheduleResolver {
   constructor(private readonly scheduleService: ScheduleService) {}
 
   @Query((returns) => [Schedule], { name: "schedule" })
-  getSchedule() {
+  async getSchedule() {
     return this.scheduleService.getSchedule();
   }
 

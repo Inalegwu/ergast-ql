@@ -1,6 +1,6 @@
 import { HttpService } from "@nestjs/axios";
 import type { MRData as SMRData } from "./schedule.entity";
-import { catchError, firstValueFrom, map } from "rxjs";
+import { catchError, map } from "rxjs";
 import { AxiosError } from "axios";
 
 export class ScheduleService {

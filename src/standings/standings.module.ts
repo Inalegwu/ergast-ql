@@ -10,6 +10,7 @@ import { HttpModule } from "@nestjs/axios";
       useFactory: async () => ({
         timeout: 10_000,
         baseURL: `https://ergast.com/api/f1/${new Date().getFullYear()}/`,
+        maxRetries: 10,
       }),
       inject: [],
     }),

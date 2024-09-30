@@ -1,6 +1,6 @@
 import { HttpService } from "@nestjs/axios";
 import type { MRData as SMRData } from "./schedule.entity";
-import { catchError, map, tap } from "rxjs";
+import { catchError, map, retry, tap } from "rxjs";
 import { AxiosError } from "axios";
 import { Injectable } from "@nestjs/common";
 
@@ -21,6 +21,11 @@ export class ScheduleService {
           });
 
           throw new Error(`Error getting schedule ${error.message}`);
+        }),
+        retry({
+          count: 3,
+          resetOnSuccess: true,
+          delay: 3000,
         }),
       );
   }
@@ -44,6 +49,11 @@ export class ScheduleService {
           });
           throw new Error(`Error getting schedule for round ${error.message}`);
         }),
+        retry({
+          count: 3,
+          resetOnSuccess: true,
+          delay: 3000,
+        }),
       );
   }
 
@@ -51,6 +61,8 @@ export class ScheduleService {
   // from the current day
   async getNextRace(previousRound: number) {
     const date = `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDay()}`;
+
+    console.log(date.split("-"));
 
     return this.httpService
       .get<{ MRData: SMRData }>(`/${new Date().getFullYear()}.json`)
@@ -67,6 +79,11 @@ export class ScheduleService {
             code: error.code,
           });
           throw new Error(`Error getting next race ${error.message}`);
+        }),
+        retry({
+          count: 3,
+          resetOnSuccess: true,
+          delay: 3000,
         }),
       );
   }

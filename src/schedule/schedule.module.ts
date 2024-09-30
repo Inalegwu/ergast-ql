@@ -11,6 +11,7 @@ import { ScheduleService } from "./schedule.service";
       useFactory: async () => ({
         baseURL: "https://ergast.com/api/f1/",
         timeout: 10_000,
+        maxRetries: 10,
       }),
     }),
   ],

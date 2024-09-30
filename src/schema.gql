@@ -62,11 +62,11 @@ type Schedule {
   Circuit: Circuit!
   date: String!
   time: String!
-  FirstPractice: Day!
-  SecondPractice: Day!
+  FirstPractice: Day
+  SecondPractice: Day
   ThirdPractice: Day
-  Qualifying: Day!
-  Sprint: Day!
+  Qualifying: Day
+  Sprint: Day
 }
 
 type Query {

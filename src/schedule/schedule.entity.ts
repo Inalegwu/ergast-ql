@@ -62,19 +62,19 @@ export class Schedule {
   @Field()
   time: string;
 
-  @Field()
+  @Field({ nullable: true })
   FirstPractice: Day;
 
-  @Field()
+  @Field({ nullable: true })
   SecondPractice: Day;
 
   @Field({ nullable: true })
   ThirdPractice: Day;
 
-  @Field()
+  @Field({ nullable: true })
   Qualifying: Day;
 
-  @Field()
+  @Field({ nullable: true })
   Sprint: Day;
 }
 

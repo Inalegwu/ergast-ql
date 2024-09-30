@@ -2,7 +2,7 @@ import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import type { MRData as CMRData } from "./standings.entity";
 import type { MRData as DMRData } from "./driver.entity";
-import { catchError, map, tap } from "rxjs";
+import { catchError, map, tap, retry } from "rxjs";
 import { AxiosError } from "axios";
 
 @Injectable()
@@ -39,6 +39,11 @@ export class StandingsService {
             `error getting constructors standings ${error.message}`,
           );
         }),
+        retry({
+          count: 3,
+          resetOnSuccess: true,
+          delay: 3000,
+        }),
       );
   }
 
@@ -72,6 +77,11 @@ export class StandingsService {
           throw new Error(
             `Error occured getting driver standings ${error.message}:${error.cause}:${error.code}`,
           );
+        }),
+        retry({
+          count: 3,
+          resetOnSuccess: true,
+          delay: 3000,
         }),
       );
   }

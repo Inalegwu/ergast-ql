@@ -2,7 +2,9 @@ import { HttpService } from "@nestjs/axios";
 import type { MRData as SMRData } from "./schedule.entity";
 import { catchError, map } from "rxjs";
 import { AxiosError } from "axios";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class ScheduleService {
   constructor(private readonly httpService: HttpService) {}
 
@@ -18,7 +20,7 @@ export class ScheduleService {
             code: error.code,
           });
 
-          throw "Error getting schedule";
+          throw new Error(`Error getting schedule ${error.message}`);
         }),
       );
   }
@@ -34,34 +36,27 @@ export class ScheduleService {
             (race) => +race.round === roundNumber,
           ),
         ),
-        map((race) => race),
         catchError((error: AxiosError) => {
           console.log({
             error: error.message,
             cause: error.cause,
             code: error.code,
           });
-          throw `Error fetching schedule for round ${roundNumber}`;
+          throw new Error(`Error getting schedule for round ${error.message}`);
         }),
       );
   }
 
   async getNextRace() {
+    const date = `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDay()}`;
+
     return this.httpService
       .get<{ MRData: SMRData }>(`/${new Date().getFullYear()}.json`)
       .pipe(
         map((response) =>
-          response.data.MRData.RaceTable.Races.map((race) => {
-            const date = race.date;
-
-            const groups = date.match(/(\d{4})-(\d{2})-(\d{2})/);
-
-            const [day, month, year] = groups;
-
-            console.log({ day, month, year });
-
-            return race;
-          }).at(0),
+          response.data.MRData.RaceTable.Races.filter(
+            (race) => +race.date.split("0")[2] > +date.split("-")[2],
+          ),
         ),
         catchError((error: AxiosError) => {
           console.log({
@@ -69,7 +64,7 @@ export class ScheduleService {
             cause: error.cause,
             code: error.code,
           });
-          throw "Error getting next race";
+          throw new Error(`Error getting next race ${error.message}`);
         }),
       );
   }

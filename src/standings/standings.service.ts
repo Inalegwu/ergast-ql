@@ -35,7 +35,9 @@ export class StandingsService {
             cause: error.cause,
             code: error.code,
           });
-          throw "Error getting constructors standings";
+          throw new Error(
+            `error getting constructors standings ${error.message}`,
+          );
         }),
       );
   }
@@ -67,7 +69,9 @@ export class StandingsService {
             cause: error.cause,
             code: error.code,
           });
-          throw "Error getting driver standings";
+          throw new Error(
+            `Error occured getting driver standings ${error.message}:${error.cause}:${error.code}`,
+          );
         }),
       );
   }

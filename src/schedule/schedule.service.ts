@@ -47,7 +47,9 @@ export class ScheduleService {
       );
   }
 
-  async getNextRace() {
+  // TODO: figure out a way to detect the next race
+  // from the current day
+  async getNextRace(previousRound: number) {
     const date = `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDay()}`;
 
     return this.httpService
@@ -55,8 +57,8 @@ export class ScheduleService {
       .pipe(
         map((response) =>
           response.data.MRData.RaceTable.Races.filter(
-            (race) => +race.date.split("0")[2] > +date.split("-")[2],
-          ),
+            (race) => +race.round === previousRound + 1,
+          ).at(0),
         ),
         catchError((error: AxiosError) => {
           console.log({

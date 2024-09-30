@@ -16,8 +16,8 @@ export class ScheduleResolver {
     return this.scheduleService.getScheduleForRound(roundNumber);
   }
 
-  @Query((returns) => [Schedule], { name: "nextRace" })
-  async getCloseSchedule() {
-    return this.scheduleService.getNextRace();
+  @Query((returns) => Schedule, { name: "nextRace" })
+  async getNextRace(@Args("round",{type:()=>Int}) previousRound:number) {
+    return this.scheduleService.getNextRace(previousRound);
   }
 }

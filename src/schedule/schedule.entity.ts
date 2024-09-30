@@ -68,11 +68,14 @@ export class Schedule {
   @Field()
   SecondPractice: Day;
 
-  @Field()
+  @Field({ nullable: true })
   ThirdPractice: Day;
 
   @Field()
   Qualifying: Day;
+
+  @Field()
+  Sprint: Day;
 }
 
 export type Race = {
@@ -106,6 +109,10 @@ export type Race = {
     time: string;
   };
   Qualifying: {
+    date: string;
+    time: string;
+  };
+  Sprint?: {
     date: string;
     time: string;
   };

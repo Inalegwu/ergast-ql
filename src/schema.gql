@@ -64,8 +64,9 @@ type Schedule {
   time: String!
   FirstPractice: Day!
   SecondPractice: Day!
-  ThirdPractice: Day!
+  ThirdPractice: Day
   Qualifying: Day!
+  Sprint: Day!
 }
 
 type Query {

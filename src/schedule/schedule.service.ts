@@ -62,8 +62,6 @@ export class ScheduleService {
   async getNextRace(previousRound: number) {
     const date = `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDay()}`;
 
-    console.log(date.split("-"));
-
     return this.httpService
       .get<{ MRData: SMRData }>(`/${new Date().getFullYear()}.json`)
       .pipe(
